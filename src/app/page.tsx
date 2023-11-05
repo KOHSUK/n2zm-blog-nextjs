@@ -14,12 +14,12 @@ export default async function Home() {
   const articles = await getArticles(databaseId);
 
   return (
-    <div className="py-10 max-w-screen-xl mx-auto">
-      <h1 className="font-bold text-4xl mb-6">n2zm Blog</h1>
-      <div className="grid grid-cols-3 gap-8">
+    <div className="sm:py-10 py-5 lg:max-w-screen-xl mx-auto">
+      <h1 className="font-bold sm:text-4xl text-2xl sm:mb-6 mb-3">n2zm Blog</h1>
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
         {articles.map((article) => (
           <Link href={`/article/${article.id}`} key={article.id} itemProp="url">
-            <div className="w-full h-60 rounded overflow-hidden shadow-lg mb-2 relative">
+            <div className="aspect-w-16 aspect-h-9 rounded overflow-hidden shadow-lg mb-2 relative">
               <NextImage
                 src={`/article/cover?id=${article.id}`}
                 alt="Card"

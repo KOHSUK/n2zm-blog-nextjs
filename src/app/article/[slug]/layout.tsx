@@ -10,7 +10,7 @@ export default async function Layout({ children }: Props) {
     <>
       <ZennEmbedScript />
       <ZennEmbedElements />
-      {children}
+      <div className="py-10 max-w-screen-md mx-auto">{children}</div>
     </>
   );
 }

@@ -66,9 +66,9 @@ export default async function ArticlePage({
   const { title, type, topics } = await getPageMetadata(secret, slug);
 
   return (
-    <div className="py-10 max-w-screen-md mx-auto">
+    <>
       <header className="mb-6">
-        <h1 className="font-bold text-4xl mb-6">{title}</h1>
+        <h1 className="font-bold sm:text-4xl text-2xl sm:mb-6 mb-3">{title}</h1>
         <div className="flex">
           <ArticleType type={type.toUpperCase()} className="mr-1" />
           <div className="grow" />
@@ -88,6 +88,6 @@ export default async function ArticlePage({
           <span className="text-blue-500 cursor-pointer">&#x2190; Go home</span>
         </Link>
       </footer>
-    </div>
+    </>
   );
 }
