@@ -1,5 +1,5 @@
-import ZennEmbedElements from "@/components/zenn-embed-elements";
-import { ZennEmbedScript } from "@/components/zenn-embed-script";
+import ZennEmbedElements from '@/components/zenn-embed-elements';
+import { ZennEmbedScript } from '@/components/zenn-embed-script';
 
 type Props = {
   children: React.ReactNode;

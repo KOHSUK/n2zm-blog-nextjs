@@ -1,27 +1,54 @@
-import { NotionPropertyMappings } from "@/const/notion-key-mappings";
-import { getDatabase, getNotionClient } from "@/lib/notion/api";
-import NotionToZennMd from "notion-to-zenn-md";
-import markdownToHtml from "zenn-markdown-html";
-import "zenn-content-css";
-import Link from "next/link";
-import ArticleType from "@/components/article-type";
-import Topic from "@/components/topic";
+import { getDatabase, getNotionClient } from '@/lib/notion/api';
+import 'zenn-content-css';
+import Link from 'next/link';
+import ArticleType from '@/components/article-type';
+import Topic from '@/components/topic';
+import { Metadata } from 'next';
+import { Env } from '@/const/env';
+import { Site } from '@/const/site';
+import urlJoin from 'url-join';
+import { getPageMetadata, notionToHtml } from '@/lib/blog-helper';
+
+export async function generateMetadata({
+  params: { slug },
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const secret = process.env.NOTION_TOKEN;
+  if (!secret) {
+    throw new Error('Internal error.');
+  }
+
+  const { title } = await getPageMetadata(secret, slug);
+
+  return {
+    metadataBase: new URL(Env.BaseUrl),
+    title: `${title} | ${Site.name}`,
+    description: title,
+    openGraph: {
+      title,
+      description: title,
+      url: urlJoin(Env.BaseUrl, 'article', slug),
+      siteName: Site.name,
+      locale: Site.locale,
+      type: 'website',
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const databaseId = process.env.NOTION_DATABASE_ID;
 
   if (!databaseId) {
-    throw new Error("Internal error.");
+    throw new Error('Internal error.');
   }
 
   const notion = getNotionClient(process.env.NOTION_TOKEN);
   const pages = await getDatabase(notion, databaseId);
 
-  return pages.map((page) => {
-    return {
-      slug: page.id,
-    };
-  });
+  return pages.map((page) => ({
+    slug: page.id,
+  }));
 }
 
 export default async function ArticlePage({
@@ -31,27 +58,19 @@ export default async function ArticlePage({
 }) {
   const secret = process.env.NOTION_TOKEN;
   if (!secret) {
-    throw new Error("Internal error.");
+    throw new Error('Internal error.');
   }
 
-  // convert Notion page to Zenn markdown
-  const n2zm = new NotionToZennMd(secret);
-  const markdown = await n2zm.pageToZennMarkdown(slug);
+  const html = await notionToHtml(secret, slug);
 
-  // convert markdown to HTML
-  const html = markdownToHtml(markdown);
-
-  const { title, type, topics } = await n2zm.getFrontMatter(
-    slug,
-    NotionPropertyMappings
-  );
+  const { title, type, topics } = await getPageMetadata(secret, slug);
 
   return (
     <div className="py-10 max-w-screen-md mx-auto">
       <header className="mb-6">
         <h1 className="font-bold text-4xl mb-6">{title}</h1>
         <div className="flex">
-          <ArticleType type={type.toUpperCase()} />
+          <ArticleType type={type.toUpperCase()} className="mr-1" />
           <div className="grow" />
           <div className="flex">
             {topics.map((topic) => (
