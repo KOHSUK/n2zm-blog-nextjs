@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: []
-    }
-}
+  images: {
+    domains: [''],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

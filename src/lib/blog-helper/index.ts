@@ -87,6 +87,7 @@ export const getArticles = cache(async (databaseId: string) => {
       type,
       topics,
       publishedAt,
+      author: page.created_by.id,
     };
   });
 

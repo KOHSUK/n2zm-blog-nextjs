@@ -1,4 +1,4 @@
-import { getNotionClient, isImageBlock } from '@/lib/notion';
+import { Page, getNotionClient } from '@/lib/notion';
 
 export async function GET(
   request: Request,
@@ -7,16 +7,15 @@ export async function GET(
   const slug = params.slug;
 
   const notion = getNotionClient(process.env.NOTION_TOKEN);
-  const block = await notion.blocks.retrieve({ block_id: slug });
+  const { cover } = (await notion.pages.retrieve({ page_id: slug })) as Page;
 
-  if (!isImageBlock(block)) {
+  if (!cover) {
     return new Response('Not Found', { status: 404 });
   }
 
-  const { image } = block;
-
-  if (image.type === 'external') {
-    const url = image.external.url;
+  // `external` type
+  if (cover.type === 'external') {
+    const url = cover.external.url;
     // fetch image from the url and return it as response
     const response = await fetch(url);
     const headers = new Headers(response.headers);
@@ -33,7 +32,8 @@ export async function GET(
     });
   }
 
-  const url = image.file.url;
+  // `file` type
+  const url = cover.file.url;
   const response = await fetch(url);
   const headers = new Headers(response.headers);
   headers.set('cache-control', 'public, max-age=31536000');

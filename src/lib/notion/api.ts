@@ -1,7 +1,12 @@
+/**
+ * This module contains functions for interacting with the Notion API.
+ * @packageDocumentation
+ */
+
 import { Client } from '@notionhq/client';
 import { cache } from 'react';
 import 'server-only';
-import { Block, Database, Page } from './types';
+import { Block, Database, Page, User } from './types';
 
 /**
  * Returns a new Notion client instance.
@@ -64,5 +69,21 @@ export const getBlock = cache(
     });
 
     return response as Block;
+  },
+);
+
+/**
+ * Retrieves a Notion user by their ID.
+ * @param notion - The Notion client instance.
+ * @param userId - The ID of the user to retrieve.
+ * @returns The user object.
+ */
+export const getUser = cache(
+  async (notion: Client, userId: string): Promise<User> => {
+    const response = await notion.users.retrieve({
+      user_id: userId,
+    });
+
+    return response as User;
   },
 );

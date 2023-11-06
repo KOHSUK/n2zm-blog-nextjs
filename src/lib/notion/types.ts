@@ -1,7 +1,3 @@
-import { Client } from '@notionhq/client';
-
-export type NotionClient = Client;
-
 // ##############################################
 // User
 // ##############################################
@@ -15,18 +11,25 @@ type UserWrapper<T extends string, U> = {
   [K in T]?: U;
 };
 
-type UserType = UserWrapper<
+export type UserType = UserWrapper<
   'person',
   {
     email: string;
   }
 >;
 
-type BotType = UserWrapper<
+export type BotType = UserWrapper<
   'bot',
   {
-    type: 'workspace' | 'user';
-    workspace_name?: string | null;
+    owner: {
+      type: 'workspace';
+    };
+    workspace_name: string;
+  } & {
+    owner: {
+      type: 'user';
+    };
+    workspace_name: null;
   }
 >;
 
@@ -74,7 +77,6 @@ export type EmailProperty = PagePropertyWrapper<'email', string>;
 
 type FileWrapper<T extends string, U> = {
   type: T;
-  name: string;
 } & {
   [K in T]: U;
 };
@@ -259,8 +261,8 @@ export type Page = {
   last_edited_time: string;
   last_edited_by: User;
   archived: boolean;
-  icon: File | Emoji | null;
-  cover: ExternalPropertyValue | null;
+  icon: FileProperty | Emoji | null;
+  cover: FileProperty | null;
   properties: Record<string, Property>;
   parent: Parent;
   url: string;
