@@ -9,8 +9,6 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
-  console.log('id', id);
-
   if (id == null) {
     return Response.error();
   }
@@ -22,11 +20,7 @@ export async function GET(request: Request) {
 
   const n2zm = new NotionToZennMd(secret);
 
-  console.log('n2zm initialized');
-
   const { title } = await n2zm.getFrontMatter(id, NotionPropertyMappings);
-
-  console.log('title', title);
 
   return CoverImageResponse({ id, title });
 }
