@@ -1,8 +1,6 @@
 import IconImageResponse from '@/lib/icon-image-response';
 import { getNotionClient, getUser } from '@/lib/notion';
 
-export const runtime = 'edge';
-
 export async function GET(
   request: Request,
   { params }: { params: { slug: string } },
