@@ -6,7 +6,7 @@ import CoverImageResponse from '@/lib/cover-image-response';
 export const runtime = 'edge';
 
 // Image metadata
-export const alt = '';
+export const alt = 'ogp';
 
 export const size = {
   width: 1200,
