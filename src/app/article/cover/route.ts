@@ -2,8 +2,6 @@ import { NotionPropertyMappings } from '@/const/notion-key-mappings';
 import NotionToZennMd from 'notion-to-zenn-md';
 import CoverImageResponse from '../../../lib/cover-image-response';
 
-export const runtime = 'edge';
-
 export async function GET(request: Request) {
   console.log('request.url', request.url);
   const { searchParams } = new URL(request.url);
