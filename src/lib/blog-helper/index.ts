@@ -39,7 +39,7 @@ export const notionToHtml = cache(async (secret: string, pageId: string) => {
   const markdown = await getPageMarkdown(secret, pageId);
 
   const html = markdownToHtml(markdown, {
-    embedOrigin: 'https://embed.zenn.dev',
+    embedOrigin: 'https://embed.zenn.studio',
   });
 
   return html;
