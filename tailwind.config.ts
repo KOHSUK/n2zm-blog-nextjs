@@ -7,7 +7,11 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        screen: '#F5F5F5',
+      },
+    },
   },
   plugins: [require('@tailwindcss/aspect-ratio')],
 };

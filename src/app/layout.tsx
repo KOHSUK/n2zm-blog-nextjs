@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-screen`}>
         <div className="px-4 mx-auto">{children}</div>
       </body>
     </html>
