@@ -68,7 +68,7 @@ export default async function ArticlePage({
   return (
     <>
       <header className="mb-6">
-        <h1 className="font-bold sm:text-4xl text-2xl sm:mb-6 mb-3">{title}</h1>
+        <h1 className="font-bold md:text-4xl text-2xl md:mb-6 mb-3">{title}</h1>
         <div className="flex">
           <ArticleType type={type.toUpperCase()} className="mr-1" />
           <div className="grow" />
