@@ -9,7 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        header: '#F5F5F5',
+        headerText: '#000000',
         screen: '#F5F5F5',
+        screenText: '#000000',
+        footer: '#FFFFFF',
+        footerText: '#000000',
+        primary: '#757575',
+        secondary: '#B5B5B5',
+        tertiary: '#DBDBDB',
       },
     },
   },
