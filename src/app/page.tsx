@@ -13,7 +13,7 @@ export default async function Home() {
   const articles = await getArticles(databaseId);
 
   return (
-    <div className="md:py-10 py-5 xl:max-w-screen-xl md:max-w-screen-md mx-auto">
+    <div className="xl:max-w-screen-xl md:max-w-screen-md mx-auto">
       <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-8 md:gap-x-12 gap-y-20 md:gap-y-32">
         {articles.map((article) => (
           <Link href={`/article/${article.id}`} key={article.id} itemProp="url">
