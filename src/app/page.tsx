@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <div className="xl:max-w-screen-xl md:max-w-screen-md mx-auto">
-      <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-8 md:gap-x-12 gap-y-20 md:gap-y-32">
+      <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-8 md:gap-x-12 gap-y-20 md:gap-y-24">
         {articles.map((article) => (
           <Link href={`/article/${article.id}`} key={article.id} itemProp="url">
             <article>
