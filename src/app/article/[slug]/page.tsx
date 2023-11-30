@@ -68,7 +68,7 @@ export default async function ArticlePage({
   return (
     <>
       <div className="mb-6">
-        <h1 className="font-bold md:text-4xl text-2xl md:mb-24 mb-8">
+        <h1 className="font-bold md:text-4xl text-2xl md:mb-12 mb-8">
           {title}
         </h1>
         <div className="flex">
