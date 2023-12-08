@@ -9,6 +9,8 @@ import { Site } from '@/const/site';
 import urlJoin from 'url-join';
 import { getPageMetadata, notionToHtml } from '@/lib/blog-helper';
 
+export const revalidate = 60 * 5; // revalidate at most every 5 minits
+
 export async function generateMetadata({
   params: { slug },
 }: {

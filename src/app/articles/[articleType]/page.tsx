@@ -1,5 +1,7 @@
 import ArticlesList from '@/components/articles-list';
 
+export const revalidate = 60 * 5; // revalidate at most every 5 minits
+
 export default async function Page({
   params: { articleType },
 }: {
