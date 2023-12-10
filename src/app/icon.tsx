@@ -2,7 +2,7 @@ import { getSiteInfo } from '@/lib/blog-helper';
 import IconImageResponse from '@/lib/icon-image-response';
 
 // Route segment config
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 // Image metadata
 export const size = {
