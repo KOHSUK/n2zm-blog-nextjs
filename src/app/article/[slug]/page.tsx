@@ -5,9 +5,8 @@ import ArticleType from '@/components/article-type';
 import Topic from '@/components/topic';
 import { Metadata } from 'next';
 import { Env } from '@/const/env';
-import { Site } from '@/const/site';
 import urlJoin from 'url-join';
-import { getPageMetadata, notionToHtml } from '@/lib/blog-helper';
+import { getPageMetadata, getSiteInfo, notionToHtml } from '@/lib/blog-helper';
 
 export const revalidate = 60 * 5; // revalidate at most every 5 minits
 
@@ -16,23 +15,32 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
+  const databaseId = process.env.NOTION_DATABASE_ID;
+
+  if (!databaseId) {
+    throw new Error('Internal error.');
+  }
+
   const secret = process.env.NOTION_TOKEN;
+
   if (!secret) {
     throw new Error('Internal error.');
   }
 
   const { title } = await getPageMetadata(secret, slug);
 
+  const site = await getSiteInfo(databaseId);
+
   return {
     metadataBase: new URL(Env.BaseUrl),
-    title: `${title} | ${Site.name}`,
+    title: `${title} | ${site.title}`,
     description: title,
     openGraph: {
       title,
       description: title,
       url: urlJoin(Env.BaseUrl, 'article', slug),
-      siteName: Site.name,
-      locale: Site.locale,
+      siteName: site.title,
+      locale: site.locale,
       type: 'website',
     },
   };

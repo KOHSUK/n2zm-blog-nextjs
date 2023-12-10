@@ -273,7 +273,26 @@ export type Page = {
 // Database
 // ##############################################
 
-export type Database = Array<Page>;
+export type Pages = Array<Page>;
+
+export type Database = {
+  object: 'database';
+  id: string;
+  created_time: string;
+  created_by: User;
+  last_edited_time: string;
+  last_edited_by: User;
+  title: TextRichText[];
+  description: TextRichText[];
+  icon: FileProperty | Emoji | null;
+  cover: FileProperty | null;
+  properties: Record<string, Property>;
+  parent: Parent;
+  url: string;
+  archived: boolean;
+  is_inline: boolean;
+  public_url: string;
+};
 
 // ##############################################
 // Block

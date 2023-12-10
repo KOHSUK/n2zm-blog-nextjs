@@ -1,3 +1,5 @@
+import { getPageMetadata } from '@/lib/blog-helper';
+import CoverImageResponse from '@/lib/cover-image-response';
 import { Page, getNotionClient } from '@/lib/notion';
 
 export async function GET(
@@ -10,7 +12,14 @@ export async function GET(
   const { cover } = (await notion.pages.retrieve({ page_id: slug })) as Page;
 
   if (!cover) {
-    return new Response('Not Found', { status: 404 });
+    const secret = process.env.NOTION_TOKEN;
+    if (!secret) {
+      throw new Error('Internal error.');
+    }
+
+    const { title } = await getPageMetadata(secret, slug);
+
+    return CoverImageResponse({ id: slug, title });
   }
 
   // `external` type
@@ -19,7 +28,7 @@ export async function GET(
     // fetch image from the url and return it as response
     const response = await fetch(url);
     const headers = new Headers(response.headers);
-    headers.set('cache-control', 'public, max-age=31536000');
+    headers.set('cache-control', `public, max-age=${60 * 60}`);
     headers.set(
       'content-type',
       response.headers.get('content-type') || 'image/png',
@@ -36,7 +45,7 @@ export async function GET(
   const url = cover.file.url;
   const response = await fetch(url);
   const headers = new Headers(response.headers);
-  headers.set('cache-control', 'public, max-age=31536000');
+  headers.set('cache-control', `public, max-age=${60 * 60}`);
   headers.set(
     'content-type',
     response.headers.get('content-type') || 'image/png',

@@ -5,12 +5,16 @@ import markdownToHtml from 'zenn-markdown-html';
 import {
   getDatabase,
   getNotionClient,
+  getUser,
   isDateProperty,
+  isEmojiProperty,
   isMultiSelectProperty,
   isSelectProperty,
   isTitleProperty,
+  retrieveDatabase,
 } from '../notion';
 import { Site } from '@/const/site';
+import { Env } from '@/const/env';
 import 'server-only';
 
 /**
@@ -163,4 +167,30 @@ export const getAllArticleTypes = cache(async (databaseId: string) => {
   ).sort((a, b) => a.localeCompare(b));
 
   return articleTypes;
+});
+
+/**
+ * Retrieves site information from a Notion database.
+ * @param {string} databaseId - The ID of the Notion database to retrieve the site information from.
+ * @returns {Promise<Object>} - The site information including title, description, and url.
+ */
+export const getSiteInfo = cache(async (databaseId: string) => {
+  const notion = getNotionClient(process.env.NOTION_TOKEN);
+  const database = await retrieveDatabase(notion, databaseId);
+
+  let icon: string = Site.icon;
+  if (database.icon && isEmojiProperty(database.icon)) {
+    icon = database.icon.emoji;
+  }
+
+  const user = await getUser(notion, database.created_by.id);
+
+  return {
+    ...Site,
+    title: database.title.map((item) => item.plain_text).join(''),
+    description: database.description.map((item) => item.plain_text).join(''),
+    url: Env.BaseUrl,
+    icon,
+    userName: user.name || '',
+  };
 });

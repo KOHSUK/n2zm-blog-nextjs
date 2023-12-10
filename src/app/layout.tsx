@@ -1,26 +1,37 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Site } from '@/const/site';
 import { Env } from '@/const/env';
 import Header from '@/components/header';
 import { Footer } from '@/components/footer';
+import { getSiteInfo } from '@/lib/blog-helper';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(Env.BaseUrl),
-  title: Site.name,
-  description: Site.description,
-  openGraph: {
-    title: Site.name,
-    description: Site.description,
-    url: Site.url,
-    siteName: Site.name,
-    locale: Site.locale,
-    type: 'website',
-  },
-};
+export async function generateMetadata() {
+  const databaseId = process.env.NOTION_DATABASE_ID;
+
+  if (!databaseId) {
+    throw new Error('Internal error.');
+  }
+
+  const site = await getSiteInfo(databaseId);
+
+  const metadata: Metadata = {
+    metadataBase: new URL(Env.BaseUrl),
+    title: site.title,
+    description: site.description,
+    openGraph: {
+      title: site.title,
+      description: site.description,
+      url: site.url,
+      siteName: site.title,
+      locale: site.locale,
+      type: 'website',
+    },
+  };
+  return metadata;
+}
 
 export default function RootLayout({
   children,

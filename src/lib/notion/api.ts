@@ -6,7 +6,7 @@
 import { Client } from '@notionhq/client';
 import { cache } from 'react';
 import 'server-only';
-import { Block, Database, Page, User } from './types';
+import { Block, Pages, Page, User, Database } from './types';
 
 /**
  * Returns a new Notion client instance.
@@ -27,7 +27,7 @@ export const getNotionClient = cache(
  * @returns The database object.
  */
 export const getDatabase = cache(
-  async (notion: Client, databaseId: string): Promise<Database> => {
+  async (notion: Client, databaseId: string): Promise<Pages> => {
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
@@ -38,7 +38,7 @@ export const getDatabase = cache(
       },
     });
 
-    return response.results as Database;
+    return response.results as Pages;
   },
 );
 
@@ -85,5 +85,21 @@ export const getUser = cache(
     });
 
     return response as User;
+  },
+);
+
+/**
+ * Retrieves a Notion database by its ID.
+ * @param notion - The Notion client instance.
+ * @param databaseId - The ID of the database to retrieve.
+ * @returns The database object.
+ */
+export const retrieveDatabase = cache(
+  async (notion: Client, databaseId: string): Promise<Database> => {
+    const response = await notion.databases.retrieve({
+      database_id: databaseId,
+    });
+
+    return response as Database;
   },
 );

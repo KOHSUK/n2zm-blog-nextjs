@@ -1,11 +1,19 @@
-import { Site } from '@/const/site';
+import { getSiteInfo } from '@/lib/blog-helper';
 import { MetadataRoute } from 'next';
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const databaseId = process.env.NOTION_DATABASE_ID;
+
+  if (!databaseId) {
+    throw new Error('Internal error.');
+  }
+
+  const site = await getSiteInfo(databaseId);
+
   return {
-    name: Site.name,
-    short_name: Site.name,
-    description: Site.description,
+    name: site.title,
+    short_name: site.title,
+    description: site.description,
     start_url: '/',
     display: 'standalone',
     background_color: '#000',
