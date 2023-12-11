@@ -14,13 +14,7 @@ export const size = {
 
 export const contentType = 'image/png';
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
-
-export default async function OpenGraphImage({ params: { slug } }: Props) {
+export default async function OpenGraphImage() {
   const secret = process.env.NOTION_TOKEN;
   if (!secret) {
     throw new Error('Internal error.');
