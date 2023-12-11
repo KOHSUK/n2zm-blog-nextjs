@@ -2,7 +2,7 @@ import { getSiteInfo } from '@/lib/blog-helper';
 import CoverImageResponse from '@/lib/cover-image-response';
 
 // Route segment config
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 // Image metadata
 export const alt = '';

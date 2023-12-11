@@ -3,7 +3,7 @@ import { NotionPropertyMappings } from '@/const/notion-key-mappings';
 import CoverImageResponse from '@/lib/cover-image-response';
 
 // Route segment config
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 // Image metadata
 export const alt = 'ogp';
