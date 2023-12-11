@@ -20,7 +20,6 @@ export async function GET(
     // fetch image from the url and return it as response
     const response = await fetch(url);
     const headers = new Headers(response.headers);
-    headers.set('cache-control', 'public, max-age=31536000');
     headers.set(
       'content-type',
       response.headers.get('content-type') || 'image/png',
@@ -36,7 +35,6 @@ export async function GET(
   const url = image.file.url;
   const response = await fetch(url);
   const headers = new Headers(response.headers);
-  headers.set('cache-control', 'public, max-age=31536000');
   headers.set(
     'content-type',
     response.headers.get('content-type') || 'image/png',

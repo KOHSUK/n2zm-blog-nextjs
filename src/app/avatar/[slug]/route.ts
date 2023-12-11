@@ -16,7 +16,6 @@ export async function GET(
 
   const response = await fetch(user.avatar_url);
   const headers = new Headers(response.headers);
-  headers.set('cache-control', 'public, max-age=31536000');
   headers.set(
     'content-type',
     response.headers.get('content-type') || 'image/png',
