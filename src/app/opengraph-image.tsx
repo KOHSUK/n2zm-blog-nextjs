@@ -1,3 +1,4 @@
+import { getSiteInfo } from '@/lib/blog-helper';
 import CoverImageResponse from '@/lib/cover-image-response';
 
 // Route segment config
@@ -24,6 +25,13 @@ export default async function OpenGraphImage({ params: { slug } }: Props) {
   if (!secret) {
     throw new Error('Internal error.');
   }
+  const databaseId = process.env.NOTION_DATABASE_ID;
 
-  return CoverImageResponse({ id: '0', title: 'n2zm Blog' });
+  if (!databaseId) {
+    throw new Error('Internal error.');
+  }
+
+  const { title } = await getSiteInfo(databaseId);
+
+  return CoverImageResponse({ id: '0', title });
 }
