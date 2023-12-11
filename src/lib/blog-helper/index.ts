@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import NotionToZennMd from 'notion-to-zenn-md';
-import { NotionPropertyMappings } from '@/const/notion-key-mappings';
+import { NotionPropertyMappings } from '@/const/notion-property-mappings';
 import markdownToHtml from 'zenn-markdown-html';
 import {
   getDatabase,

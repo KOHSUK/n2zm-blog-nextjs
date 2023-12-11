@@ -1,5 +1,5 @@
 import NotionToZennMd from 'notion-to-zenn-md';
-import { NotionPropertyMappings } from '@/const/notion-key-mappings';
+import { NotionPropertyMappings } from '@/const/notion-property-mappings';
 import CoverImageResponse from '@/lib/cover-image-response';
 
 // Route segment config

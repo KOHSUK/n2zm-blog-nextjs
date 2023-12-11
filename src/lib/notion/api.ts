@@ -7,6 +7,7 @@ import { Client } from '@notionhq/client';
 import { cache } from 'react';
 import 'server-only';
 import { Block, Pages, Page, User, Database } from './types';
+import { NotionPropertyMappings } from '@/const/notion-property-mappings';
 
 /**
  * Returns a new Notion client instance.
@@ -31,11 +32,17 @@ export const getDatabase = cache(
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
-        property: 'Published', // The name of the property in your database that you want to filter by.
+        property: NotionPropertyMappings.published,
         checkbox: {
           equals: true,
         },
       },
+      sorts: [
+        {
+          property: NotionPropertyMappings.publishedAt,
+          direction: 'descending',
+        },
+      ],
     });
 
     return response.results as Pages;
